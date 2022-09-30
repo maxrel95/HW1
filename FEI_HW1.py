@@ -95,9 +95,9 @@ proba_boom_w.round( 4 ).to_latex( 'results/proba_boom_w.tex' )
 # Q3.c
 jb_d = f.jarque_bera( log_ret )
 jb_w = f.jarque_bera( w_l_ret, freq='weekly' ).round( 4 )
+jb_dw = pd.concat( [ jb_d[ 'JBTest daily' ], jb_w ], axis=1 )
 
-jb_d.to_latex( 'results/jb_d.tex' )
-jb_w.to_latex( 'results/jb_w.tex' )
+jb_dw.to_latex( 'results/jb.tex' )
 
 # Q3.d
 f.autocorr( log_ret )
