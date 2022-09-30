@@ -71,10 +71,11 @@ def jarque_bera( data, freq='daily' ):
         tstat = T*( ( skew**2 )/6 + ( kurt**2 )/24 )
         res.append( tstat )
     
-    pval = stats.chi2.ppf( 0.95, 2 )
+    r = pd.DataFrame( [ res ], columns=data.columns.to_list(), index=[ 'JBTest '+freq ] ).T
+    r = r.round( 0 )
+    r['CV'] = pd.DataFrame( stats.chi2.ppf( 0.95, 2 )*np.ones( ( 6, 1 ) ), index=data.columns.to_list() )
 
-    return pd.DataFrame( [res, pval], columns=data.columns.to_list(), index=['JBTest '+freq, 'pvalue'] )
-
+    return r
 
 def var_rho( rho, T ):
     v = []

@@ -93,8 +93,8 @@ proba_crash_w.round( 4 ).to_latex( 'results/proba_crash_w.tex' )
 proba_boom_w.round( 4 ).to_latex( 'results/proba_boom_w.tex' )
 
 # Q3.c
-jb_d = f.jarque_bera( log_ret ).round( 4 )
-jb_w = f.jarque_bera( w_l_ret ).round( 4 )
+jb_d = f.jarque_bera( log_ret )
+jb_w = f.jarque_bera( w_l_ret, freq='weekly' ).round( 4 )
 
 jb_d.to_latex( 'results/jb_d.tex' )
 jb_w.to_latex( 'results/jb_w.tex' )
@@ -113,14 +113,15 @@ w_ljb = f.ljungbox( w_l_ret, 10 )
 r_d = pd.DataFrame()
 for test, name in zip( d_ljb, simple_ret.columns.to_list() ):
     r_d[ name ] = test[ 'lb_stat' ]
+r_d = r_d.round( 1 )
 r_d[ 'Critical Value' ] = pd.DataFrame([ stats.chi2.ppf( 0.95, i) for i in range(1, 11)], index=list(np.arange(1,11)))
-r_d.to_latex( 'restults/ljb_daily.tex' )
+r_d.to_latex( 'results/ljb_daily.tex' )
 
 r_w = pd.DataFrame()
 for test, name in zip( w_ljb, simple_ret.columns.to_list() ):
     r_w[ name ] = test[ 'lb_stat' ]
 r_w[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
-r_w.to_latex( 'restults/ljb_weekly.tex' )
+r_w.to_latex( 'results/ljb_weekly.tex' )
 
 
 d_ljb2 = f.ljungbox( log_ret**2, 10 )
@@ -131,13 +132,13 @@ r_d2 = pd.DataFrame()
 for test, name in zip( d_ljb2, simple_ret.columns.to_list() ):
     r_d2[ name ] = test[ 'lb_stat' ]
 r_d2[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
-r_d2.to_latex( 'restults/ljb_daily_squared.tex' )
+r_d2.to_latex( 'results/ljb_daily_squared.tex' )
 
 r_w2 = pd.DataFrame()
 for test, name in zip( w_ljb2, simple_ret.columns.to_list() ):
     r_w[ name ] = test[ 'lb_stat' ]
 r_w2[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
-r_w2.to_latex( 'restults/ljb_weekly_squared.tex' )
+r_w2.to_latex( 'results/ljb_weekly_squared.tex' )
 
 # Q4
 # Q4.a
