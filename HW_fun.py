@@ -62,6 +62,7 @@ def get_proba_of_extremes( data ):
 def jarque_bera( data, freq='daily' ):
     res = []
     T = data.shape[ 0 ]
+    N = data.columns.to_list().__len__()
 
     for asset in data.columns.to_list():
         serie = data[ asset ]
@@ -73,7 +74,7 @@ def jarque_bera( data, freq='daily' ):
     
     r = pd.DataFrame( [ res ], columns=data.columns.to_list(), index=[ 'JBTest '+freq ] ).T
     r = r.round( 0 )
-    r['CV'] = pd.DataFrame( stats.chi2.ppf( 0.95, 2 )*np.ones( ( 6, 1 ) ), index=data.columns.to_list() )
+    r['CV'] = pd.DataFrame( stats.chi2.ppf( 0.95, 2 )*np.ones( ( N, 1 ) ), index=data.columns.to_list() )
 
     return r
 
@@ -99,10 +100,10 @@ def autocorr( data, lag=10, freq='d', squared=False ):
             name = ''
 
         g = plt.figure()
-        plt.plot(ac[ 1: ], 'k')
-        plt.plot(ci, 'b--')
-        plt.plot(-ci, 'b--')
-        plt.ylim([ -np.max( np.abs( ac[ 1: ] ) )-0.1, np.max( np.abs( ac[ 1: ] ) )+0.1])
+        plt.plot( np.arange( 1, 11 ), ac[ 1: ], 'k' )
+        plt.plot( np.arange( 1, 11 ), ci, 'b--' )
+        plt.plot( np.arange( 1, 11 ), -ci, 'b--' )
+        plt.ylim( [ -np.max( np.abs( ac[ 1: ] ) )-0.1, np.max( np.abs( ac[ 1: ] ) )+0.1 ] )
         plt.xlabel( 'lag' )
         plt.ylabel( 'autocorrelation' )
         plt.title( freq_name.get( freq )+' autocorrelation for '+name+' return of '+asset )

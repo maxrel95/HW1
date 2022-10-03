@@ -143,12 +143,17 @@ r_w2.to_latex( 'results/ljb_weekly_squared.tex' )
 # Q4
 # Q4.a
 d_port_ret = simple_ret.mean( 1 )
-d_port_ret.columns = [ 'EW portfolio' ]
+d_port_ret = d_port_ret.reset_index()
+d_port_ret.columns = ['DATE', 'EW Portfolio']
+d_port_ret.set_index( 'DATE', inplace=True)
 describe_d_port = f.get_description_table( d_port_ret ).round( 4 )
 describe_d_port.to_latex( 'results/describe_d_port.tex' )
 
 # Q4.b
 w_port_ret = w_s_ret.mean( 1 )
+w_port_ret = w_port_ret.reset_index()
+w_port_ret.columns = ['DATE', 'EW Portfolio']
+w_port_ret.set_index( 'DATE', inplace=True)
 describe_w_port = f.get_description_table( w_port_ret, ann_factor=52).round( 4 )
 describe_w_port.to_latex( 'results/describe_w_port.tex' )
 
@@ -159,4 +164,3 @@ plt.legend([ 'EW portfolio' ]+simple_ret.columns.to_list() )
 plt.xlabel( 'Time' )
 plt.ylabel( 'Cumulative product' )
 g.savefig( 'results/portfolioAssets', dpi=200 )
-
