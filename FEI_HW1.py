@@ -74,14 +74,15 @@ sp500_w = w_l_ret[ 'S&PCOMP(RI)' ]
 
 # Q3.a
 nlargest_d = sp500_d.nlargest( 5 ).round( 4 )
-nlargest_d.to_latex( 'results/nlargest_d.tex' )
 nlargest_w = sp500_w.nlargest( 5 ).round( 4 )
-nlargest_w.to_latex( 'results/nlargest_w.tex' )
 
 nsmallest_d = sp500_d.nsmallest( 5 ).round( 4 )
-nsmallest_d.to_latex( 'results/nsmallest_d.tex' )
 nsmallest_w = sp500_w.nsmallest( 5 ).round( 4 )
-nsmallest_w.to_latex( 'results/nsmallest_w.tex' )
+
+large_event_daily = pd.concat( [ nlargest_d, nsmallest_d ], axis=0 )
+large_event_weekly = pd.concat( [ nlargest_w, nsmallest_w ], axis=0 )
+large_event_daily.to_latex( 'results/largestevent_d.tex' )
+large_event_weekly.to_latex( 'results/largestevent_w.tex' )
 
 # Q3.b
 proba_crash_d, proba_boom_d = f.get_proba_of_extremes( log_ret )
@@ -109,7 +110,6 @@ f.autocorr( w_l_ret**2, freq='w', squared=True )
 d_ljb = f.ljungbox( log_ret, 10 )
 w_ljb = f.ljungbox( w_l_ret, 10 )
 
-
 r_d = pd.DataFrame()
 for test, name in zip( d_ljb, simple_ret.columns.to_list() ):
     r_d[ name ] = test[ 'lb_stat' ]
@@ -126,7 +126,6 @@ r_w.to_latex( 'results/ljb_weekly.tex' )
 
 d_ljb2 = f.ljungbox( log_ret**2, 10 )
 w_ljb2 = f.ljungbox( w_l_ret**2, 10 )
-
 
 r_d2 = pd.DataFrame()
 for test, name in zip( d_ljb2, simple_ret.columns.to_list() ):
