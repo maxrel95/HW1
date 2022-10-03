@@ -6,7 +6,6 @@
 # Date: OCT 2022
 # ==========================================================================
 import os 
-os.chdir(r"C:\Users\flori\OneDrive\Documents\PhD\Financial Econometrics\Homeworks\Homework 1\Final") # Indicate the path.
 
 import pandas as pd
 import numpy as np 
