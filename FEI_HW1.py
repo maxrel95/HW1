@@ -5,6 +5,8 @@
 # Authors : Maxime Borel, Florian Perusset & Keyu Zang 
 # Date: OCT 2022
 # ==========================================================================
+import os 
+os.chdir(r"C:\Users\flori\OneDrive\Documents\PhD\Financial Econometrics\Homeworks\Homework 1\Final") # Indicate the path.
 
 import pandas as pd
 import numpy as np 
@@ -148,7 +150,7 @@ describe_d_port.to_latex( 'results/describe_d_port.tex' )
 
 # Q4.b
 w_port_ret = w_s_ret.mean( 1 )
-describe_w_port = f.get_description_table( w_port_ret ).round( 4 )
+describe_w_port = f.get_description_table( w_port_ret, ann_factor=52).round( 4 )
 describe_w_port.to_latex( 'results/describe_w_port.tex' )
 
 g = plt.figure()
