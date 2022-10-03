@@ -136,7 +136,7 @@ r_d2.to_latex( 'results/ljb_daily_squared.tex' )
 
 r_w2 = pd.DataFrame()
 for test, name in zip( w_ljb2, simple_ret.columns.to_list() ):
-    r_w[ name ] = test[ 'lb_stat' ]
+    r_w2[ name ] = test[ 'lb_stat' ]
 r_w2[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
 r_w2.to_latex( 'results/ljb_weekly_squared.tex' )
 
