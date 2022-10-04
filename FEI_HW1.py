@@ -6,12 +6,15 @@
 # Date: OCT 2022
 # ==========================================================================
 import os 
-
 import pandas as pd
 import numpy as np 
 import HW_fun as f
 import matplotlib.pyplot as plt
 from scipy import stats
+
+
+# replace the ... by the path of the folder than contains all the code
+os.chdir(r"...") # Indicate the path.
 
 # Q2
 df = pd.read_excel( 'DATA_HW1.xlsx', header=1, index_col=0 )
