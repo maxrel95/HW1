@@ -116,12 +116,14 @@ for test, name in zip( d_ljb, simple_ret.columns.to_list() ):
     r_d[ name ] = test[ 'lb_stat' ]
 r_d = r_d.round( 1 )
 r_d[ 'Critical Value' ] = pd.DataFrame([ stats.chi2.ppf( 0.95, i) for i in range(1, 11)], index=list(np.arange(1,11)))
+r_d = r_d.round( 1 )
 r_d.to_latex( 'results/ljb_daily.tex' )
 
 r_w = pd.DataFrame()
 for test, name in zip( w_ljb, simple_ret.columns.to_list() ):
     r_w[ name ] = test[ 'lb_stat' ]
 r_w[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
+r_w = r_w.round( 1 )
 r_w.to_latex( 'results/ljb_weekly.tex' )
 
 
@@ -131,13 +133,15 @@ w_ljb2 = f.ljungbox( w_l_ret**2, 10 )
 r_d2 = pd.DataFrame()
 for test, name in zip( d_ljb2, simple_ret.columns.to_list() ):
     r_d2[ name ] = test[ 'lb_stat' ]
-r_d2[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
+r_d2[ 'Critical Value' ] = r_d[ 'Critical Value' ]
+r_d2 = r_d2.round( 1 )
 r_d2.to_latex( 'results/ljb_daily_squared.tex' )
 
 r_w2 = pd.DataFrame()
 for test, name in zip( w_ljb2, simple_ret.columns.to_list() ):
     r_w2[ name ] = test[ 'lb_stat' ]
 r_w2[ 'Critical Value' ] = r_d[ 'Critical Value' ] 
+r_w2 = r_w2.round( 1 )
 r_w2.to_latex( 'results/ljb_weekly_squared.tex' )
 
 # Q4
@@ -164,3 +168,16 @@ plt.legend([ 'EW portfolio' ]+simple_ret.columns.to_list() )
 plt.xlabel( 'Time' )
 plt.ylabel( 'Cumulative product' )
 g.savefig( 'results/portfolioAssets', dpi=200 )
+
+ret = w_l_ret.copy()
+
+from statsmodels.tsa.stattools import acf
+
+res = acf( ret.iloc[ :, 0 ], nlags=10, fft=False )[ 1: ]
+T = ret.shape[0]
+v = ( np.sqrt( 1 / T )*1.96 ) * np.ones( 10 )
+g = plt.figure()
+plt.plot( res )
+plt.plot( v )
+plt.plot( -v )
+

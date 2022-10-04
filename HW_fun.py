@@ -74,7 +74,7 @@ def jarque_bera( data, freq='daily' ):
     
     r = pd.DataFrame( [ res ], columns=data.columns.to_list(), index=[ 'JBTest '+freq ] ).T
     r = r.round( 0 )
-    r['CV'] = pd.DataFrame( stats.chi2.ppf( 0.95, 2 )*np.ones( ( N, 1 ) ), index=data.columns.to_list() )
+    r[ 'CV' ] = pd.DataFrame( stats.chi2.ppf( 0.95, 2 )*np.ones( ( N, 1 ) ), index=data.columns.to_list() )
 
     return r
 
@@ -87,7 +87,7 @@ def var_rho( rho, T ):
     return v
 
 def autocorr( data, lag=10, freq='d', squared=False ):
-    T = data.iloc[:, 0].shape[ 0 ]
+    T = data.iloc[ :, 0 ].shape[ 0 ]
     for asset in data.columns.to_list():
         serie = data[ asset ]
         ac = acf( serie, nlags=lag )
@@ -116,7 +116,7 @@ def ljungbox( data, lag ):
     res = []
     for asset in data.columns.to_list():
         serie = data[ asset ]
-        r = acorr_ljungbox( serie, lags=lag, return_df=True)
+        r = acorr_ljungbox( serie, lags=lag, return_df=True )
         res.append( r )
 
     return res
